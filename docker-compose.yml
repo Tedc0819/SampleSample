@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  api:
+    build: .
+    image: "api"
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - .env.docker:/app/.env
+    command: bash -c "nodemon server.js"
