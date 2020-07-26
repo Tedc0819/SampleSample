@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "jest test"
+  },
   "author": "Ted Cheng",
   "license": "ISC",
   "nodemonConfig": {
@@ -15,13 +17,17 @@
     "delay": "3000"
   },
   "jest": {
+    "setupFilesAfterEnv": [
+      "./test/jest.setup.js"
+    ],
     "testEnvironment": "node"
   },
   "dependencies": {
     "@shopline/sl-express": "^3.0.0",
     "dotenv": "^8.2.0",
-    "synchronized-promise": "^0.3.1",
-    "test-combo": "^0.0.2"
+    "fast-csv": "^4.3.1",
+    "jest": "^26.1.0",
+    "synchronized-promise": "^0.3.1"
   },
   "devDependencies": {
     "cartesian-product": "^2.1.2",
@@ -30,6 +36,7 @@
     "eslint-config-prettier": "^6.1.0",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-prettier": "^3.1.0",
-    "prettier": "^1.18.2"
+    "prettier": "^1.18.2",
+    "test-combo": "^0.0.2"
   }
 }
