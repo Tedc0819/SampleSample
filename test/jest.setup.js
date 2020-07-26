@@ -1,8 +1,16 @@
 const { TestCombo } = require('test-combo')
 const App = require(`${process.cwd()}/MyApp.js`)
+const app = new App
+
 global.TestCombo = TestCombo
 
 beforeAll(async () => {
-  const app = new App
-  return app.prepare()
+  process.env.MONGODB_DATABASE = `api_${Date.now()}`
+
+  await app.prepare()
+  await app.connectDependencies()
+})
+
+afterAll(async () => {
+  await app.disconnectDependencies()
 })
