@@ -1,4 +1,4 @@
-const formidable = require('formidable')
+const formidable = require("formidable")
 
 module.exports = function(req, res, next) {
   const form = formidable({ multiples: true })
@@ -6,7 +6,9 @@ module.exports = function(req, res, next) {
   form.parse(req, (err, fields, files) => {
     req.files = files
 
-    if (err) { return next(err) }
+    if (err) {
+      return next(err)
+    }
 
     return next()
   })

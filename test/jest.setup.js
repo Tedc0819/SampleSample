@@ -11,6 +11,12 @@ beforeAll(async () => {
   await app.connectDependencies()
 })
 
+beforeEach(() => {
+  return Promise.all([
+    SaleRecord.remove({})
+  ])
+})
+
 afterAll(async () => {
   await app.disconnectDependencies()
 })
