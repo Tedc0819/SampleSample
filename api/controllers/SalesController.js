@@ -6,39 +6,47 @@ class SalesController {
   }
 
   async record(req, res) {
-    const filePath = req.files.fileX.path
+    try {
+      const filePath = req.files.fileX.path
 
-    const saleService = this.getSaleService()
+      const saleService = this.getSaleService()
 
-    const result = await saleService.saveRecordsFromUploadedCSVFile({
-      filePath
-    })
+      const result = await saleService.saveRecordsFromUploadedCSVFile({
+        filePath
+      })
 
-    return res.status(200).send(result)
+      return res.status(200).send(result)
+    } catch(e) {
+      return res.status(400).send({ message: e.message })
+    }
   }
 
   async report(req, res) {
-    const whiteList = [
-      "lastPurchasedAtStart",
-      "lastPurchasedAtEnd",
-      "idFrom",
-      "limit"
-    ]
+    try {
+      const whiteList = [
+        "lastPurchasedAtStart",
+        "lastPurchasedAtEnd",
+        "idFrom",
+        "limit"
+      ]
 
-    const whitelistedParams = helpers.whiteList({
-      obj: req.query,
-      filter: whiteList
-    })
+      const whitelistedParams = helpers.whitelist({
+        obj: req.query,
+        filter: whiteList
+      })
 
-    if (whitelistedParams.limit) {
-      whitelistedParams.limit = parseInt(whitelistedParams.limit, 10)
+      if (whitelistedParams.limit) {
+        whitelistedParams.limit = parseInt(whitelistedParams.limit, 10)
+      }
+
+      const saleService = this.getSaleService()
+
+      const result = await saleService.listRecords(whitelistedParams)
+
+      return res.status(200).send(result)
+    } catch(e) {
+      return res.status(400).send({ message: e.message })
     }
-
-    const saleService = this.getSaleService()
-
-    const result = await saleService.listRecords(whitelistedParams)
-
-    return res.status(200).send(result)
   }
 }
 

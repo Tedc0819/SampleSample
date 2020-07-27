@@ -51,7 +51,7 @@ class TestSuite extends TestCombo {
     jest.spyOn(test.saleService, 'listRecords')
       .mockReturnValue(test.targetRes)
 
-    jest.spyOn(helpers, 'whiteList')
+    jest.spyOn(helpers, 'whitelist')
       .mockReturnValue(test.whiteListedParams)
 
     return SalesController.report(
