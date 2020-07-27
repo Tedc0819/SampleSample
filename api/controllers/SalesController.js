@@ -1,27 +1,33 @@
 class SalesController {
   getSaleService() {
-    const saleService = new SaleService
+    const saleService = new SaleService()
 
     return saleService
   }
+
   async record(req, res) {
     const filePath = req.files.fileX.path
 
     const saleService = this.getSaleService()
 
-    const result  = await saleService.saveRecordsFromUploadedCSVFile({
-      filePath,
+    const result = await saleService.saveRecordsFromUploadedCSVFile({
+      filePath
     })
 
     return res.status(200).send(result)
   }
 
   async report(req, res) {
-    const whiteList = ['lastPurchasedAtStart', 'lastPurchasedAtEnd', 'idFrom', 'limit']
+    const whiteList = [
+      "lastPurchasedAtStart",
+      "lastPurchasedAtEnd",
+      "idFrom",
+      "limit"
+    ]
 
     const whitelistedParams = helpers.whiteList({
       obj: req.query,
-      filter: whiteList,
+      filter: whiteList
     })
 
     if (whitelistedParams.limit) {

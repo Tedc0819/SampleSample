@@ -1,5 +1,5 @@
 const sp = require('synchronized-promise')
-const App = require('./app.js')
+const App = require('./MyApp.js')
 
 const app = new App()
 
@@ -7,6 +7,7 @@ const prepareSync = sp(app.prepare.bind(app))
 prepareSync()
 
 const globals = {
+  helpers,
 }
 
 const targets = ['services', 'models']
