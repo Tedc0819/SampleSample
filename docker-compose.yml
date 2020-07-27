@@ -11,3 +11,12 @@ services:
       - /app/node_modules
       - .env.docker:/app/.env
     command: bash -c "nodemon server.js"
+  mongo:
+    image: "mongo:3.6"
+    ports:
+      - "27017:27017"
+    volumes:
+      - "mongodb:/data/db"
+volumes:
+  mongodb:
+    driver: local

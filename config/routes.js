@@ -1,5 +1,8 @@
 module.exports = {
-  preMiddlewares: [],
-  routes: ["GET /health PublicController.healthCheck"],
+  preMiddlewares: ['* requestLog requestParseURLEncoded requestParseBody'],
+  routes: [
+    "GET /health PublicController.healthCheck",
+    "POST /sales/record formidable SalesController.record",
+  ],
   postMiddlewares: []
 }
