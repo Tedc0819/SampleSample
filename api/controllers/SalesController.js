@@ -1,8 +1,13 @@
 class SalesController {
+  getSaleService() {
+    const saleService = new SaleService
+
+    return saleService
+  }
   async record(req, res) {
     const filePath = req.files.fileX.path
 
-    const saleService = new SaleService
+    const saleService = this.getSaleService()
 
     const result  = await saleService.saveRecordsFromUploadedCSVFile({
       filePath,
@@ -23,9 +28,9 @@ class SalesController {
       whitelistedParams.limit = parseInt(whitelistedParams.limit, 10)
     }
 
-    const saleService = new SaleService
+    const saleService = this.getSaleService()
 
-    const result = await saleService.listRecords(query)
+    const result = await saleService.listRecords(whitelistedParams)
 
     return res.status(200).send(result)
   }
