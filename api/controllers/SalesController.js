@@ -10,6 +10,25 @@ class SalesController {
 
     return res.status(200).send(result)
   }
+
+  async report(req, res) {
+    const whiteList = ['lastPurchasedAtStart', 'lastPurchasedAtEnd', 'idFrom', 'limit']
+
+    const whitelistedParams = helpers.whiteList({
+      obj: req.query,
+      filter: whiteList,
+    })
+
+    if (whitelistedParams.limit) {
+      whitelistedParams.limit = parseInt(whitelistedParams.limit, 10)
+    }
+
+    const saleService = new SaleService
+
+    const result = await saleService.listRecords(query)
+
+    return res.status(200).send(result)
+  }
 }
 
 module.exports = SalesController

@@ -1,5 +1,7 @@
 const Joi = require('joi')
 
+const LISTING_DEFAULT_LIMIT = 100
+
 class SaleService {
   async saveRecordsFromUploadedCSVFile({ filePath }) {
     const reader = new CSVReader
@@ -69,6 +71,43 @@ class SaleService {
         [propertyMap[key]]: modifier[key](csvObj[key]),
       }
     }, {})
+  }
+
+  async listRecords({lastPurchasedAtStart, lastPurchasedAtEnd, idFrom, limit}) {
+    const filter = {}
+
+    if (lastPurchasedAtStart) {
+      filter.lastPurchasedAt = filter.lastPurchasedAt || {}
+      filter.lastPurchasedAt.$gte = lastPurchasedAtStart
+    }
+
+    if (lastPurchasedAtEnd) {
+      filter.lastPurchasedAt = filter.lastPurchasedAt || {}
+      filter.lastPurchasedAt.$lte = lastPurchasedAtEnd
+    }
+
+    if (idFrom) {
+      filter._id = { $gt: idFrom }
+    }
+
+    const opts = {
+      limit: limit || LISTING_DEFAULT_LIMIT,
+      sort: {
+        _id: 'asc',
+      },
+    }
+
+    const data = await SaleRecord.find(filter, null, opts)
+    const total = await SaleRecord.countDocuments(filter)
+
+    return {
+      meta: {
+        total,
+        idFrom,
+        limit: limit || LISTING_DEFAULT_LIMIT,
+      },
+      data,
+    }
   }
 }
 
